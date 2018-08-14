@@ -1,4 +1,4 @@
-<!-- Promise简化包装器，用于增强已有Promise易用性 -->
+<!-- Promise简化包装器，用于增强已有ES6 Promise的易用性 -->
 
 ## 特性
 
