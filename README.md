@@ -88,7 +88,7 @@ run()
 
 ## API
 
-### zPromise(options)
+#### zPromise(options)
 
 * `options` *Object* 配置选项
 
@@ -96,19 +96,19 @@ run()
 
    * `message` *String* 超时描述信息，可选
 
-### this.state
+#### this.state
 
 当前promise状态，值分别为pending、resolve、reject
 
-### this.resolve()
+#### this.resolve()
 
 代理Promise注入函数中的resolve，成功时执行
 
-### this.reject()
+#### this.reject()
 
 代理Promise注入函数中的reject，失败时执行
 
-### this.restart(options)
+#### this.restart(options)
 
 * options 与zPromise创建实例时的参数一样
 
