@@ -14,7 +14,7 @@ npm install zpromise
 
 * 支持Promise等待超时
 
-* 支持获取当前Promise状态
+* 支持获取Promise实例当前状态
 
 ## 示例
 
@@ -88,11 +88,13 @@ run()
 
 ## API
 
-### zPromise({ time, message })
+### zPromise(options)
 
-* time 超时时间，单位ms，可选
+* `options` *Object* 配置选项
 
-* message 超时描述信息，可选
+   * `time` *Number* 超时时间，单位ms，可选
+
+   * `message` *String* 超时描述信息，可选
 
 ### this.state
 
