@@ -8,6 +8,12 @@
 
 * 支持promise等待超时
 
+## Install
+
+```
+npm install zpromise
+```
+
 ## 示例
 
 ```js
