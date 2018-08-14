@@ -1,20 +1,20 @@
 <!-- Promise简化包装器，用于增强已有ES6 Promise的易用性 -->
 
-## 特性
-
-* 消除Promise注入函数，直接在Promise实例上调用resolve和reject方法进行状态管理
-
-* 支持promise重启，可复用配置项
-
-* 支持promise等待超时
-
-* 支持state属性获取当前promise状态
-
 ## Install
 
 ```
 npm install zpromise
 ```
+
+## 特性
+
+* 消除Promise注入函数，直接在Promise实例上调用resolve和reject方法进行状态管理
+
+* 支持Promise重启、可复用配置项
+
+* 支持Promise等待超时
+
+* 支持获取当前Promise状态
 
 ## 示例
 
@@ -41,7 +41,9 @@ async function run(params) {
 
    console.log(promise.state)
    
-   await promise
+   await promise.catch(message => {
+      console.error(message)
+   })
 
    console.log(promise.state)
 
