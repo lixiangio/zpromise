@@ -2,11 +2,13 @@
 
 ## 特性
 
-* 消除Promise注入函数，直接在Promise实例上暴露resolve()和reject()即可实现状态管理
+* 消除Promise注入函数，直接在Promise实例上调用resolve和reject方法进行状态管理
 
-* 提供state属性获取当前promise状态
+* 支持promise重启，可复用配置项
 
 * 支持promise等待超时
+
+* 支持state属性获取当前promise状态
 
 ## Install
 
@@ -21,27 +23,21 @@ const zPromise = require('zpromise');
 
 let promise = new zPromise()
 
-console.log(promise.state)
-
 setTimeout(() => {
    
    promise.resolve()
 
-   // promise.reject()
-
-   console.log(promise.state)
-
 }, 1000);
 ```
 
-## 超时示例
+### 超时
 
 ```js
 const zPromise = require('zpromise');
 
 async function run(params) {
 
-   let promise = new zPromise(3000)
+   let promise = new zPromise({ time: 3000, message: "等待超时" })
 
    console.log(promise.state)
    
@@ -55,11 +51,46 @@ run()
 ```
 
 
+### 重启
+
+```js
+const zPromise = require('zpromise');
+
+async function run(params) {
+
+   let p1 = new zPromise({ time: 3000, message: "等待超时1" })
+
+   await p1.catch(message => {
+      console.error(message)
+   })
+
+   let p2 = p1.restart({ time: 3000, message: "等待超时2" })
+
+   p2.then(data => {
+      console.error(data)
+   }).catch(error => {
+      console.error(error)
+   })
+
+   setTimeout(() => {
+
+      p2.reject()
+      
+   }, 1000);
+
+}
+
+run()
+```
+
+
 ## API
 
-### zPromise(time)
+### zPromise({ time, message })
 
-* time 时间，单位ms
+* time 超时时间，单位ms，可选
+
+* message 超时描述信息，可选
 
 ### this.state
 
@@ -72,3 +103,11 @@ run()
 ### this.reject()
 
 代理Promise注入函数中的reject，失败时执行
+
+### this.restart(options)
+
+* options 与zPromise创建实例时的参数一样
+
+restart()仅在promise处于非pending状态时重启，pending状态下还是返回原来的promise。
+
+重启promise实际上是基于已有配置创建新的Promise实例，目的是为使配置项可复用和可迭代。

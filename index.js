@@ -3,7 +3,9 @@ class zPromise {
     * 
     * @param {Number} time 超时时间，单位ms
     */
-   constructor(time) {
+   constructor(options = {}) {
+
+      let { time, message } = options
 
       let callback
 
@@ -16,7 +18,7 @@ class zPromise {
       if (time) {
 
          let timeId = setTimeout(() => {
-            callback.reject(`Promise等待超过${time}ms`)
+            callback.reject(message || `Promise等待超过${time}ms`)
             promise.state = 'reject'
          }, time);
 
@@ -25,7 +27,7 @@ class zPromise {
             callback.resolve(data)
             promise.state = 'resolve'
          }
-         
+
          promise.reject = function (data) {
 
             clearTimeout(timeId)
@@ -40,9 +42,23 @@ class zPromise {
             callback.resolve(data)
             promise.state = 'resolve'
          }
+
          promise.reject = function (data) {
             callback.reject(data)
             promise.state = 'reject'
+         }
+
+      }
+
+      /**
+       * 基于已有配置创建新的Promise实例
+       */
+      promise.restart = function (options) {
+
+         if (promise.state === 'pending') {
+            return promise
+         } else {
+            return new zPromise(options)
          }
 
       }

@@ -1,20 +1,21 @@
 const zPromise = require('..');
 
-async function run(params) {
+async function run() {
 
-   let promise = new zPromise(3000)
+   let promise = new zPromise({
+      time: 3000,
+      message: "等待超时"
+   })
 
-   console.log(promise.state)
-   
-   // promise.resolve()
+   setTimeout(() => {
+      
+      // promise.resolve()
 
-   // setTimeout(() => {
+   }, 1000);
 
-   // }, 50000);
-
-   await promise
-
-   console.log(promise.state)
+   await promise.catch(message => {
+      console.error(message)
+   })
 
 }
 
