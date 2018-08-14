@@ -53,12 +53,12 @@ class zPromise {
       /**
        * 基于已有配置创建新的Promise实例
        */
-      promise.restart = function (options) {
+      promise.restart = function (newOptions) {
 
          if (promise.state === 'pending') {
             return promise
          } else {
-            return new zPromise(options)
+            return new zPromise(newOptions || options)
          }
 
       }
