@@ -10,11 +10,11 @@ npm install zpromise
 
 * 消除Promise注入函数，直接在Promise实例上调用resolve和reject方法进行状态管理
 
-* 支持Promise重启、可复用配置项
-
 * 支持Promise等待超时
 
 * 支持获取Promise实例当前状态
+
+* 支持Promise重启，可复用配置项
 
 ## 示例
 
@@ -92,7 +92,7 @@ run()
 
 * `options` *Object* 配置选项
 
-   * `time` *Number* 超时时间，单位ms，可选
+   * `timeout` *Number* 超时时间，单位ms，可选
 
    * `message` *String* 超时描述信息，可选
 

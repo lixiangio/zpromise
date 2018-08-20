@@ -1,11 +1,11 @@
 class zPromise {
    /**
     * 
-    * @param {Number} time 超时时间，单位ms
+    * @param {Number} timeout 超时时间，单位ms
     */
    constructor(options = {}) {
 
-      let { time, message } = options
+      let { timeout, message } = options
 
       let callback
 
@@ -15,12 +15,12 @@ class zPromise {
 
       promise.state = 'pending'
 
-      if (time) {
+      if (timeout) {
 
          let timeId = setTimeout(() => {
-            callback.reject(message || `Promise等待超过${time}ms`)
+            callback.reject(message || `Promise等待超过${timeout}ms`)
             promise.state = 'reject'
-         }, time);
+         }, timeout);
 
          promise.resolve = function (data) {
             clearTimeout(timeId)
@@ -29,11 +29,9 @@ class zPromise {
          }
 
          promise.reject = function (data) {
-
             clearTimeout(timeId)
             callback.reject(data)
             promise.state = 'reject'
-
          }
 
       } else {
