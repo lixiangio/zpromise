@@ -10,9 +10,9 @@ npm install zpromise
 
 * 消除Promise注入函数，直接在Promise实例上调用resolve和reject方法进行状态管理
 
-* 支持Promise超时触发reject，解除无限等待
+* 支持Promise超时触发resolve或reject，解除无限等待
 
-* 支持获取Promise实例当前状态
+* 支持获取当前Promise实例状态
 
 * 支持Promise重启，可复用配置项
 
@@ -37,12 +37,12 @@ const zPromise = require('zpromise');
 
 async function run(params) {
 
-   let promise = new zPromise({ timeout: 3000, message: "等待超时" })
+   let promise = new zPromise({ timeout: 3000, reject: "等待超时" })
 
    console.log(promise.state)
    
-   await promise.catch(message => {
-      console.error(message)
+   await promise.catch(error => {
+      console.error(error)
    })
 
    console.log(promise.state)
@@ -60,13 +60,13 @@ const zPromise = require('zpromise');
 
 async function run(params) {
 
-   let p1 = new zPromise({ time: 3000, message: "等待超时1" })
+   let p1 = new zPromise({ timeout: 3000, resolve: { a: 1 } })
 
-   await p1.catch(message => {
-      console.error(message)
+   await p1.catch(error => {
+      console.error(error)
    })
 
-   let p2 = p1.restart({ time: 3000, message: "等待超时2" })
+   let p2 = p1.restart({ timeout: 2000, reject: new Error("等待超时") })
 
    p2.then(data => {
       console.error(data)
@@ -94,7 +94,9 @@ run()
 
    * `timeout` *Number* 超时时间，单位ms，可选
 
-   * `message` *String* 超时描述信息，可选
+   * `reject` * 超时后触发reject()并返回值，默认
+
+   * `resolve` * 超时后触发resolve()并返回值
 
 #### this.state
 

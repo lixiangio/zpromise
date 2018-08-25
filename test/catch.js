@@ -1,27 +1,23 @@
-const zPromise = require('..')
+const test = require('jtf');
+const zPromise = require('..');
+const { sleep } = require('./helpers/');
 
-let promise = new zPromise({ time: 3000 })
+test('time', async t => {
 
-promise.catch(message => {
+   let promise = new zPromise({ timeout: 3000 })
 
-   console.error(message)
+   promise.catch(message => {
 
-})
-
-async function run() {
-
-   await promise.catch(message => {
-      console.error(message)
    })
 
-   console.log(9999)
+   await promise.catch(message => {
+      t.equal(undefined, message);
+   })
 
-}
+   t.equal("reject", promise.state);
 
-setTimeout(() => {
+   await sleep(1000)
 
    promise.reject(666)
 
-}, 1000);
-
-run()
+})

@@ -4,8 +4,23 @@
   "description": "Promise简化包装器，用于增强已有ES6 Promise的易用性",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jtf -w"
   },
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "jtf": "^1.1.3"
+  },
+  "directories": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/xiangle/zpromise.git"
+  },
+  "bugs": {
+    "url": "https://github.com/xiangle/zpromise/issues"
+  },
+  "homepage": "https://github.com/xiangle/zpromise#readme",
+  "dependencies": {}
 }
