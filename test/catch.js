@@ -4,7 +4,7 @@ const { sleep } = require('./helpers/');
 
 test('time', async t => {
 
-   let promise = new zPromise({ timeout: 3000 })
+   let promise = new zPromise({ delay: 3000 })
 
    promise.catch(message => {
 

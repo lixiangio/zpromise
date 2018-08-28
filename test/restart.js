@@ -4,7 +4,7 @@ const { sleep } = require('./helpers/');
 
 test('restart', async t => {
 
-   let p1 = new zPromise({ timeout: 3000, resolve: "等待超时1" })
+   let p1 = new zPromise({ delay: 3000, resolve: "等待超时1" })
 
    t.equal('pending', p1.state);
 
@@ -16,7 +16,7 @@ test('restart', async t => {
 
    t.equal("等待超时1", await p1);
 
-   let p2 = p1.restart({ timeout: 3000, reject: "等待超时2" })
+   let p2 = p1.restart({ delay: 3000, reject: "等待超时2" })
 
    p2.then(value => {
 

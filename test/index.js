@@ -4,9 +4,9 @@ const { sleep } = require('./helpers/');
 
 test('reject', async t => {
 
-   let promise = new zPromise({ timeout: 2000, reject: '等待超时' })
+   let promise = new zPromise({ delay: 2000, reject: '等待超时' })
 
-   promise.catch(function(error){
+   promise.catch(function (error) {
 
    })
 
@@ -25,7 +25,7 @@ test('reject', async t => {
 
 test('resolve', async t => {
 
-   let promise = new zPromise({ timeout: 2000, resolve: { a: 1 } })
+   let promise = new zPromise({ delay: 2000, resolve: { a: 1 } })
 
    t.deepEqual('pending', promise.state);
 

@@ -5,7 +5,7 @@ const { sleep } = require('./helpers/');
 test('time', async t => {
 
    let promise = new zPromise({
-      timeout: 3000,
+      delay: 3000,
       resolve: { a: 1 },
       // reject: '等待超时'
    })

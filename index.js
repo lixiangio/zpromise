@@ -14,9 +14,9 @@ class zPromise {
 
       promise.state = 'pending'
 
-      if (options.timeout) {
+      if (options.delay) {
 
-         let { resolve, reject, timeout } = options
+         let { resolve, reject, delay } = options
 
          let state, value
          if (resolve === undefined) {
@@ -27,23 +27,22 @@ class zPromise {
             value = resolve
          }
 
-         let timeId = setTimeout(() => {
+         let timeout = setTimeout(() => {
             callback[state](value)
             promise.state = state
-         }, timeout);
+         }, delay)
 
          promise.resolve = function (data) {
-            clearTimeout(timeId)
+            clearTimeout(timeout)
             callback.resolve(data)
             promise.state = 'resolve'
          }
 
          promise.reject = function (data) {
-            clearTimeout(timeId)
+            clearTimeout(timeout)
             callback.reject(data)
             promise.state = 'reject'
          }
-
 
       } else {
 

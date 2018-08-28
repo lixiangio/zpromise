@@ -37,7 +37,7 @@ const zPromise = require('zpromise');
 
 async function run(params) {
 
-   let promise = new zPromise({ timeout: 3000, reject: "等待超时" })
+   let promise = new zPromise({ delay: 3000, reject: "等待超时" })
 
    console.log(promise.state)
    
@@ -60,13 +60,13 @@ const zPromise = require('zpromise');
 
 async function run(params) {
 
-   let p1 = new zPromise({ timeout: 3000, resolve: { a: 1 } })
+   let p1 = new zPromise({ delay: 3000, resolve: { a: 1 } })
 
    await p1.catch(error => {
       console.error(error)
    })
 
-   let p2 = p1.restart({ timeout: 2000, reject: new Error("等待超时") })
+   let p2 = p1.restart({ delay: 2000, reject: new Error("等待超时") })
 
    p2.then(data => {
       console.error(data)
@@ -92,11 +92,11 @@ run()
 
 * `options` *Object* 配置选项
 
-   * `timeout` *Number* 超时时间，单位ms，可选
+   * `delay` *Number* 超时时间，单位ms，可选
 
-   * `reject` * 超时后触发reject()并返回值，默认
+   * `reject` * reject超时返回值，默认
 
-   * `resolve` * 超时后触发resolve()并返回值
+   * `resolve` * resolve超时返回值
 
 #### this.state
 
