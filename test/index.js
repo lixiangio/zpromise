@@ -1,3 +1,5 @@
+'use strict';
+
 const test = require('jtf');
 const zPromise = require('..');
 const { sleep } = require('./helpers/');
