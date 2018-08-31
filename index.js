@@ -1,5 +1,8 @@
 'use strict';
 
+const timeChain = require('timechain')
+const timechain = new timeChain({ delay: 0 })
+
 class zPromise {
    /**
     * 
@@ -20,31 +23,28 @@ class zPromise {
 
          let { resolve, reject, delay } = options
 
-         let state, value
-         if (resolve === undefined) {
-            state = 'reject'
-            value = reject
-         } else {
-            state = 'resolve'
-            value = resolve
-         }
-
-         let timeout = setTimeout(() => {
-            callback[state](value)
-            promise.state = state
-         }, delay)
-
          promise.resolve = function (data) {
-            clearTimeout(timeout)
+            timechain.delete(key)
             callback.resolve(data)
             promise.state = 'resolve'
          }
 
          promise.reject = function (data) {
-            clearTimeout(timeout)
+            timechain.delete(key)
             callback.reject(data)
             promise.state = 'reject'
          }
+
+         let key, value
+         if (resolve) {
+            key = promise.resolve
+            value = resolve
+         } else {
+            key = promise.reject
+            value = reject
+         }
+
+         timechain.set(key, value, delay)
 
       } else {
 

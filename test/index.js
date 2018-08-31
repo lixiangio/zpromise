@@ -12,15 +12,15 @@ test('reject', async t => {
 
    })
 
-   t.deepEqual('pending', promise.state);
+   t.deepEqual('pending', promise.state)
 
    await sleep(1000)
+   
+   t.deepEqual('pending', promise.state)
 
-   t.deepEqual('pending', promise.state);
+   await sleep(3000)
 
-   await sleep(1000)
-
-   t.deepEqual('reject', promise.state);
+   t.deepEqual('reject', promise.state)
 
 })
 

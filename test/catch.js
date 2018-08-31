@@ -14,7 +14,7 @@ test('time', async t => {
       t.equal(undefined, message);
    })
 
-   t.equal("reject", promise.state);
+   t.equal("reject", promise.state)
 
    await sleep(1000)
 

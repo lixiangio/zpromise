@@ -9,7 +9,7 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "jtf": "^1.2.1"
+    "jtf": "^1.5.0"
   },
   "directories": {
     "test": "test"
@@ -22,7 +22,9 @@
     "url": "https://github.com/xiangle/zpromise/issues"
   },
   "homepage": "https://github.com/xiangle/zpromise#readme",
-  "dependencies": {},
+  "dependencies": {
+    "timechain": "^1.2.0"
+  },
   "jtf": {
     "test": {
       "path": "test/",
