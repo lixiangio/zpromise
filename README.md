@@ -21,13 +21,25 @@ npm install zpromise
 ```js
 const zPromise = require('zpromise');
 
-let promise = new zPromise()
+async function () {
 
-setTimeout(() => {
-   
-   promise.resolve()
+   let promise = new zPromise()
 
-}, 1000);
+   setTimeout(() => {
+
+      if (error) {
+         promise.reject(error)
+      } else {
+         promise.resolve(data)
+      }
+
+   }, 1000);
+
+   await promise.catch(error => {
+      console.error(error)
+   })
+
+}
 ```
 
 #### 超时
@@ -102,11 +114,15 @@ run()
 
 当前promise状态，值分别为pending、resolve、reject
 
-#### this.resolve()
+#### this.resolve(data)
+
+* data 成功返回值
 
 代理Promise注入函数中的resolve，成功时执行
 
-#### this.reject()
+#### this.reject(error)
+
+* error 失败返回值
 
 代理Promise注入函数中的reject，失败时执行
 
