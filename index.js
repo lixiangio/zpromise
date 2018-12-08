@@ -1,6 +1,7 @@
 'use strict';
 
 const timeChain = require('timechain')
+
 const timechain = new timeChain({ delay: 0 })
 
 class zPromise {
@@ -65,11 +66,7 @@ class zPromise {
        */
       promise.restart = function (newOptions) {
 
-         if (promise.state === 'pending') {
-            return promise
-         } else {
-            return new zPromise(newOptions || options)
-         }
+         return new zPromise(newOptions || options)
 
       }
 

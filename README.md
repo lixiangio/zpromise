@@ -65,7 +65,7 @@ run()
 ```
 
 
-#### 重启
+#### 重置
 
 ```js
 const zPromise = require('zpromise');

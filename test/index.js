@@ -29,14 +29,14 @@ test('resolve', async t => {
 
    let promise = new zPromise({ delay: 2000, resolve: { a: 1 } })
 
-   t.deepEqual('pending', promise.state);
+   t.deepEqual('pending', promise.state)
 
    await sleep(1000)
 
-   t.deepEqual('pending', promise.state);
+   t.deepEqual('pending', promise.state)
 
    await sleep(2000)
 
-   t.deepEqual('resolve', promise.state);
+   t.deepEqual('resolve', promise.state)
 
 })
