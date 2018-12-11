@@ -2,41 +2,44 @@
 
 const test = require('jtf');
 const zPromise = require('..');
-const { sleep } = require('./helpers/');
 
-test('reject', async t => {
+test('resolve', async t => {
 
-   let promise = new zPromise({ delay: 2000, reject: '等待超时' })
+   let zpromise = new zPromise()
 
-   promise.catch(function (error) {
-
+   zpromise.then(function () {
+      t.deepEqual('resolve', zpromise.state)
+   }).catch(function () {
+      t.deepEqual('reject', zpromise.state)
    })
 
-   t.deepEqual('pending', promise.state)
+   zpromise.resolve()
 
-   await sleep(1000)
-   
-   t.deepEqual('pending', promise.state)
-
-   await sleep(3000)
-
-   t.deepEqual('reject', promise.state)
+   t.deepEqual('resolve', zpromise.state)
 
 })
 
 
-test('resolve', async t => {
+test('reject', async t => {
 
-   let promise = new zPromise({ delay: 2000, resolve: { a: 1 } })
+   let zpromise = new zPromise()
 
-   t.deepEqual('pending', promise.state)
+   zpromise.catch(function () {
 
-   await sleep(1000)
+      t.deepEqual('reject', zpromise.state)
 
-   t.deepEqual('pending', promise.state)
+   })
 
-   await sleep(2000)
+   zpromise.reject(111)
 
-   t.deepEqual('resolve', promise.state)
+   t.deepEqual('reject', zpromise.state)
+
+   let  result = await zpromise.catch(function (error) {
+
+      return error
+      
+   })
+
+   t.deepEqual(111, result)
 
 })

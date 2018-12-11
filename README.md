@@ -1,22 +1,20 @@
-<!-- Promise简化包装器，用于增强已有ES6 Promise的易用性 -->
-
-### Install
+## Install
 
 ```
 npm install zpromise
 ```
 
-### 特性
+## 特性
 
-* 消除Promise注入函数，直接在Promise实例上调用resolve和reject方法进行状态管理
-
-* 支持Promise超时触发resolve或reject，解除无限等待
+* 消除Promise注入函数，可通过Promise实例直接访问resolve()或reject()
 
 * 支持获取当前Promise实例状态
 
+* 支持Promise超时触发resolve()或reject()
+
 * 支持Promise重启，可复用配置项
 
-### 示例
+## 示例
 
 ```js
 const zPromise = require('zpromise');
@@ -45,11 +43,11 @@ async function () {
 #### 超时
 
 ```js
-const zPromise = require('zpromise');
+const timerPromise = require('zpromise/timer');
 
 async function run(params) {
 
-   let promise = new zPromise({ delay: 3000, reject: "等待超时" })
+   let promise = new timerPromise({ delay: 3000, reject: "等待超时" })
 
    console.log(promise.state)
    
@@ -68,11 +66,11 @@ run()
 #### 重置
 
 ```js
-const zPromise = require('zpromise');
+const timerPromise = require('zpromise/timer');
 
 async function run(params) {
 
-   let p1 = new zPromise({ delay: 3000, resolve: { a: 1 } })
+   let p1 = new timerPromise({ delay: 3000, resolve: { a: 1 } })
 
    await p1.catch(error => {
       console.error(error)
@@ -98,9 +96,27 @@ run()
 ```
 
 
-### API
+## API
 
-#### zPromise(options)
+### zPromise()
+
+> Promise简化包装，提供resolve、reject绑定和状态查询
+
+#### zPromise.prototype.state
+
+Promise实例状态，包含pending、resolve、reject三种状态
+
+#### zPromise.prototype.resolve(data)
+
+对应Promise注入函数中的resolve()
+
+#### zPromise.prototype.reject(error)
+
+对应Promise注入函数中的reject()
+
+### timerPromise(options)
+
+> 在zPromise基础上增加了定时器功能，在等待超时后自动调用预设的reject()或resolve()，原型属性与zPromise一致。
 
 * `options` *Object* 配置选项
 
@@ -110,23 +126,7 @@ run()
 
    * `resolve` * resolve超时返回值
 
-#### this.state
-
-当前promise状态，值分别为pending、resolve、reject
-
-#### this.resolve(data)
-
-* data 成功返回值
-
-代理Promise注入函数中的resolve，成功时执行
-
-#### this.reject(error)
-
-* error 失败返回值
-
-代理Promise注入函数中的reject，失败时执行
-
-#### this.restart(options)
+#### timerPromise.prototype.restart(options)
 
 * options 与zPromise创建实例时的参数一样
 
