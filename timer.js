@@ -1,64 +1,58 @@
 'use strict';
 
-const timeChain = require('timechain')
-
-const timechain = new timeChain({ delay: 0 })
-
 class timerPromise {
    /**
     * @param {Object} options
-    * @param {Number} options.timeout 超时时间，单位ms
+    * @param {Number} options.delay 超时间隔时间，单位ms
     */
    constructor(options = {}) {
 
-      let callback
+      let callback, timeout
 
-      let promise = new Promise(function (resolve, reject) {
+      let promise = new Promise((resolve, reject) => {
+
          callback = { resolve, reject }
-      })
 
-      let key, value
+         timeout = setTimeout(() => {
+
+            if (options.resolve) {
+               resolve(options.resolve)
+               promise.state = 'resolve'
+            } else {
+               reject(options.reject)
+               promise.state = 'reject'
+            }
+
+         }, options.delay);
+         
+      })
 
       promise.state = 'pending'
 
       promise.resolve = function (value) {
          callback.resolve(value)
          promise.state = 'resolve'
-         timechain.delete(key)
+         clearTimeout(timeout)
       }
 
       promise.reject = function (value) {
          callback.reject(value)
          promise.state = 'reject'
-         timechain.delete(key)
+         clearTimeout(timeout)
       }
-
-      let { resolve, reject, delay } = options
-
-      if (resolve) {
-         key = promise.resolve
-         value = resolve
-      } else {
-         key = promise.reject
-         value = reject
-      }
-
-      timechain.set(key, value, delay)
 
       /**
-       * 基于已有配置创建新的Promise实例
+       * 基于上一个配置创建新的Promise实例
        */
-      promise.restart = function (newOptions) {
+      promise.restart = function () {
 
          if (promise.state === 'pending') {
             promise.resolve()
          }
 
-         return new timerPromise(newOptions || options)
+         return new timerPromise(options)
 
       }
-
-      promise.tasks = timechain.tasks
 
       return promise
 
