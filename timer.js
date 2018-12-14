@@ -2,10 +2,9 @@
 
 class timerPromise {
    /**
-    * @param {Object} options
-    * @param {Number} options.delay 超时间隔时间，单位ms
+    * @param {Number} delay 超时间隔时间，单位ms
     */
-   constructor(options = {}) {
+   constructor(delay, catchFunc) {
 
       let callback, timeout
 
@@ -15,17 +14,21 @@ class timerPromise {
 
          timeout = setTimeout(() => {
 
-            if (options.resolve) {
-               resolve(options.resolve)
-               promise.state = 'resolve'
-            } else {
-               reject(options.reject)
-               promise.state = 'reject'
-            }
+            reject('waiting timeout')
 
-         }, options.delay);
-         
+            promise.state = 'reject'
+
+         }, delay)
+
+      }).catch(function (error) {
+
+         if (catchFunc) {
+            catchFunc(error)
+         }
+
       })
+
+
 
       promise.state = 'pending'
 
@@ -42,7 +45,7 @@ class timerPromise {
       }
 
       /**
-       * 基于上一个配置创建新的Promise实例
+       * 解除并创建新的Promise实例
        */
       promise.restart = function () {
 
@@ -50,7 +53,7 @@ class timerPromise {
             promise.resolve()
          }
 
-         return new timerPromise(options)
+         return new timerPromise(delay, catchFunc)
 
       }
 

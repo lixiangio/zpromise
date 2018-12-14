@@ -6,10 +6,7 @@ class zPromise {
       let callback
 
       let promise = new Promise(function (resolve, reject) {
-         callback = {
-            resolve,
-            reject
-         }
+         callback = { resolve, reject }
       })
 
       promise.state = 'pending'

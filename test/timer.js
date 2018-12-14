@@ -6,16 +6,15 @@ const { sleep } = require('./helpers/');
 
 test('resolve', async t => {
 
-   let promise = new timerPromise({
-      delay: 2000,
-      resolve: { a: 1 }
-   })
+   let promise = new timerPromise(2000)
 
    t.deepEqual('pending', promise.state)
 
    await sleep(1000)
 
    t.deepEqual('pending', promise.state)
+
+   promise.resolve()
 
    await sleep(3000)
 
@@ -25,10 +24,7 @@ test('resolve', async t => {
 
 test('reject', async t => {
 
-   let promise = new timerPromise({
-      delay: 2000,
-      reject: '等待超时'
-   })
+   let promise = new timerPromise(2000)
 
    promise.catch(function (error) {
 

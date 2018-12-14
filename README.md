@@ -10,9 +10,9 @@ npm install zpromise
 
 * 支持获取当前Promise实例状态
 
-* 支持Promise超时触发resolve()或reject()
+* 支持Promise超时触发reject()
 
-* 支持Promise重启，可复用配置项
+* 支持Promise快速解除、重置
 
 ## 示例
 
@@ -47,7 +47,7 @@ const timerPromise = require('zpromise/timer');
 
 async function run(params) {
 
-   let promise = new timerPromise({ delay: 3000, reject: "等待超时" })
+   let promise = new timerPromise(3000)
 
    console.log(promise.state)
    
@@ -70,13 +70,15 @@ const timerPromise = require('zpromise/timer');
 
 async function run(params) {
 
-   let p1 = new timerPromise({ delay: 3000, resolve: { a: 1 } })
+   let p1 = new timerPromise(3000 , error => {
+      console.warn('等待超时')
+   })
 
    await p1.catch(error => {
       console.error(error)
    })
 
-   let p2 = p1.restart({ delay: 2000, reject: new Error("等待超时") })
+   let p2 = p1.restart()
 
    p2.then(data => {
       console.error(data)
@@ -114,22 +116,14 @@ Promise实例状态，包含pending、resolve、reject三种状态
 
 对应Promise注入函数中的reject()
 
-### timerPromise(options)
+### timerPromise(delay, catchFunc)
 
 > 在zPromise基础上增加了定时器功能，在等待超时后自动调用预设的reject()或resolve()，原型属性与zPromise一致。
 
-* `options` *Object* 配置选项
+* `delay` *Number* 超时时间，单位ms，可选
 
-   * `delay` *Number* 超时时间，单位ms，可选
+* `catchFunc` *Function* 异常捕获回调函数
 
-   * `reject` * reject超时返回值，默认
+#### timerPromise.prototype.restart()
 
-   * `resolve` * resolve超时返回值
-
-#### timerPromise.prototype.restart(options)
-
-* options 与zPromise创建实例时的参数一样
-
-restart()仅在promise处于非pending状态时重启，pending状态下还是返回原来的promise。
-
-重启promise实际上是基于已有配置创建新的Promise实例，目的是为使配置项可复用和可迭代。
+重置Promise是解除后新建Promise快捷的方式，可以重复使用配置项
