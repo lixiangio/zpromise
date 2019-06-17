@@ -5,25 +5,25 @@ class zPromise {
 
       let callback
 
-      let promise = new Promise(function (resolve, reject) {
+      const promise = new Promise(function (resolve, reject) {
          callback = { resolve, reject }
       })
 
-      promise.state = 'pending'
+      promise.state = 'pending';
 
       promise.resolve = function (data) {
-         promise.state = 'resolve'
-         callback.resolve(data)
+         promise.state = 'resolve';
+         callback.resolve(data);
       }
 
       promise.reject = function (data) {
          promise.state = 'reject'
-         callback.reject(data)
+         callback.reject(data);
       }
 
-      return promise
+      return promise;
 
    }
 }
 
-module.exports = zPromise
+module.exports = zPromise;

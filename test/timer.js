@@ -26,17 +26,17 @@ test('reject', async t => {
 
    let promise = new timerPromise(2000)
 
-   promise.catch(function (error) {
-
-   })
-
    t.deepEqual('pending', promise.state)
 
    await sleep(1000)
 
    t.deepEqual('pending', promise.state)
 
-   await sleep(2000)
+   let result = await promise.catch(function (error) {
+      return error
+   })
+
+   t.deepEqual('waiting timeout', result)
 
    t.deepEqual('reject', promise.state)
 

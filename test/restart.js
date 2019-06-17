@@ -1,15 +1,15 @@
 "use strict"
 
 const test = require('jtf');
-const timerPromise = require('../timer');
+const restartPromise = require('../restart');
 
 test('restart', async t => {
 
-   let p1 = new timerPromise(3000, error => {
+   let p1 = new restartPromise(3000, error => {
       t.equal('waiting timeout', error)
    })
 
-   t.equal('pending', p1.state)
+   t.equal('pending', p1.state);
 
    await p1.catch(error => {
       t.equal('waiting timeout', error)

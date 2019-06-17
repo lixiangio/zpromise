@@ -5,7 +5,7 @@ const zPromise = require('..');
 
 test('resolve', async t => {
 
-   let zpromise = new zPromise()
+   const zpromise = new zPromise()
 
    zpromise.then(function () {
       t.deepEqual('resolve', zpromise.state)
@@ -22,7 +22,7 @@ test('resolve', async t => {
 
 test('reject', async t => {
 
-   let zpromise = new zPromise()
+   const zpromise = new zPromise()
 
    zpromise.catch(function () {
 

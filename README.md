@@ -66,11 +66,11 @@ run()
 #### 重置
 
 ```js
-const timerPromise = require('zpromise/timer');
+const restartPromise = require('zpromise/restart');
 
 async function run(params) {
 
-   let p1 = new timerPromise(3000 , error => {
+   let p1 = new restartPromise(3000 , error => {
       console.warn('等待超时')
    })
 
@@ -124,6 +124,6 @@ Promise实例状态，包含pending、resolve、reject三种状态
 
 * `catchFunc` *Function* 异常捕获回调函数
 
-#### timerPromise.prototype.restart()
+#### restartPromise.prototype.restart()
 
-重置Promise是解除后新建Promise快捷的方式，可以重复使用配置项
+重置Promise，将原来的Promise改为resolve状态，并使用之前的配置项创建新的Promise实例

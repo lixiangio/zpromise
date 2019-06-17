@@ -4,60 +4,43 @@ class timerPromise {
    /**
     * @param {Number} delay 超时间隔时间，单位ms
     */
-   constructor(delay, catchFunc) {
+   constructor(delay) {
 
-      let callback, timeout
+      let callback, timeout;
 
-      let promise = new Promise((resolve, reject) => {
+      const promise = new Promise((resolve, reject) => {
 
-         callback = { resolve, reject }
+         callback = { resolve, reject };
 
          timeout = setTimeout(() => {
 
-            reject('waiting timeout')
+            reject(new Error('waiting timeout'));
 
-            promise.state = 'reject'
+            promise.state = 'reject';
 
-         }, delay)
-
-      }).catch(function (error) {
-
-         if (catchFunc) {
-            catchFunc(error)
-         }
+         }, delay);
 
       })
 
-
-
-      promise.state = 'pending'
+      promise.state = 'pending';
 
       promise.resolve = function (value) {
-         callback.resolve(value)
-         promise.state = 'resolve'
-         clearTimeout(timeout)
+
+         callback.resolve(value);
+         promise.state = 'resolve';
+         clearTimeout(timeout);
+
       }
 
       promise.reject = function (value) {
-         callback.reject(value)
-         promise.state = 'reject'
-         clearTimeout(timeout)
+
+         callback.reject(value);
+         promise.state = 'reject';
+         clearTimeout(timeout);
+         
       }
 
-      /**
-       * 解除并创建新的Promise实例
-       */
-      promise.restart = function () {
-
-         if (promise.state === 'pending') {
-            promise.resolve()
-         }
-
-         return new timerPromise(delay, catchFunc)
-
-      }
-
-      return promise
+      return promise;
 
    }
 }
